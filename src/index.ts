@@ -14,7 +14,6 @@ const stateList: Array<State> = [
     {name: '火急火燎地工作',duration: 1.5 * 1000},
     {name: '下班', duration: 16 * 1000}
 ];
-let globalState = defaultState;
 let setTimeoutId: number;
 
 const changeState = (state: State) => {
@@ -27,25 +26,25 @@ const changeState = (state: State) => {
     }
 }
 
-const beginTime = () => {
+const beginTime = (state: State) => {
     // 切换状态
     if (setTimeoutId) {
         clearTimeout(setTimeoutId);
     }
-    const state = { ...globalState };
     const leftTime = state.duration - 100;
+    changeState(state);
     setTimeoutId = setTimeout(() => { 
+        let newState: State;
         if (leftTime > 0) {
-            globalState = {
+            newState = {
                 name: state.name,
                 duration: leftTime
             };
-           
         } else {
-            globalState = defaultState;
+            newState = defaultState;
         }
-        changeState(globalState);
-        beginTime();
+        
+        beginTime(newState);
     }, 100)
 }
 
@@ -53,8 +52,7 @@ const createButton = (state: State) => {
     const button = document.createElement('button');
     button.textContent = state.name;
     button.onclick = () => {
-        changeState(state);
-        beginTime()
+        beginTime(state)
     }
     return button;
 }
