@@ -1,18 +1,38 @@
+import {
+    unstable_IdlePriority as IdlePriority,
+    unstable_ImmediatePriority as ImmediatePriority,
+    unstable_LowPriority as LowPriority,
+    unstable_NormalPriority as NormalPriority,
+    unstable_UserBlockingPriority as UserBlockingPriority,
+    unstable_getFirstCallbackNode as getFirstCallbackNode,
+    unstable_scheduleCallback as scheduleCallback,
+    unstable_shouldYield as shouldYield,
+    unstable_cancelCallback as cancelCallback,
+    CallbackNode
+} from "scheduler";
+type Priority =
+  | typeof IdlePriority
+  | typeof ImmediatePriority
+  | typeof LowPriority
+  | typeof NormalPriority
+  | typeof UserBlockingPriority;
+
 interface State {
     name: string;
     duration: number;
+    priority: Priority;
 }
 
-const defaultState = { name: '摸鱼', duration: 8 * 1000 };
+const defaultState = { name: '摸鱼', duration: 8 * 1000, priority: NormalPriority };
 
 const stateList: Array<State> = [
     defaultState,
-    {name: '吃饭',duration: 1 * 1000},
-    {name: '上厕所',duration: 1 * 1000},
-    {name: '喝水',duration: 1 * 1000},
-    {name: '悠闲地工作',duration: 2 * 1000},
-    {name: '火急火燎地工作',duration: 1.5 * 1000},
-    {name: '下班', duration: 16 * 1000}
+    {name: '吃饭',duration: 1 * 1000, priority: UserBlockingPriority},
+    {name: '上厕所',duration: 1 * 1000, priority: UserBlockingPriority},
+    {name: '喝水',duration: 1 * 1000, priority: UserBlockingPriority},
+    {name: '悠闲地工作',duration: 2 * 1000, priority: LowPriority},
+    {name: '火急火燎地工作',duration: 1.5 * 1000, priority: UserBlockingPriority},
+    {name: '下班', duration: 16 * 1000, priority: ImmediatePriority}
 ];
 let setTimeoutId: number;
 
@@ -37,7 +57,7 @@ const beginTime = (state: State) => {
         let newState: State;
         if (leftTime > 0) {
             newState = {
-                name: state.name,
+                ...state,
                 duration: leftTime
             };
         } else {
@@ -52,7 +72,8 @@ const createButton = (state: State) => {
     const button = document.createElement('button');
     button.textContent = state.name;
     button.onclick = () => {
-        beginTime(state)
+        const { priority } = state;
+        scheduleCallback(priority,  beginTime.bind(null, state))
     }
     return button;
 }
