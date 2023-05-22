@@ -17,7 +17,10 @@ module.exports = {
                 test: /\.tsx?$/,    // .ts或者tsx后缀的文件，就是typescript文件
                 use: "ts-loader",   // 就是上面安装的ts-loader
                 exclude: "/node-modules/" // 排除node-modules目录
-            }
+            }, {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"]
+            }    
         ]
     },
     // 模式

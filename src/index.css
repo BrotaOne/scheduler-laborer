@@ -1,0 +1,16 @@
+#root {
+    display: flex;
+    #output {
+        margin-left: 20px;
+        height: 100px;
+        width: 250px;
+        border: 1px solid black;
+        overflow: scroll;
+    }
+
+    
+}
+
+p {
+    margin: 0;
+}

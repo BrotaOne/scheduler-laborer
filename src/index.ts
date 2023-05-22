@@ -10,6 +10,8 @@ import {
     unstable_cancelCallback as cancelCallback,
     CallbackNode
 } from "scheduler";
+import './index.css';
+
 type Priority =
   | typeof IdlePriority
   | typeof ImmediatePriority
@@ -22,41 +24,65 @@ interface State {
     duration: number;
     priority: Priority;
     startTime?: number;
+    leftTime?: number;
 }
 
-const defaultState = { name: '摸鱼', duration: 8, priority: NormalPriority };
+// Max 31 bit integer. The max integer size in V8 for 32-bit systems.
+// Math.pow(2, 30) - 1
+// 0b111111111111111111111111111111
+var maxSigned31BitInt = 1073741823;
+
+const defaultState = { name: '摸鱼', duration:  maxSigned31BitInt, priority: LowPriority };
 
 const stateList: Array<State> = [
     defaultState,
-    {name: '吃饭',duration: 1, priority: UserBlockingPriority},
-    {name: '上厕所',duration: 1, priority: UserBlockingPriority},
-    {name: '喝水',duration: 1, priority: UserBlockingPriority},
-    {name: '悠闲地工作',duration: 2, priority: LowPriority},
-    {name: '火急火燎地工作',duration: 1.5, priority: UserBlockingPriority},
-    {name: '下班', duration: 16, priority: UserBlockingPriority},
+    { name: '吃饭',duration: 10, priority: UserBlockingPriority},
+    { name: '上厕所', duration: 2, priority: ImmediatePriority },
+    { name: '喝水', duration: 2, priority: UserBlockingPriority },
+    {name: '悠闲地工作',duration: 20, priority: LowPriority},
+    {name: '火急火燎地工作',duration: 15, priority: NormalPriority},
+    {name: '下班', duration: 20, priority: UserBlockingPriority},
 ];
 
 const changeState = (state: State) => {
     const stateText = document.querySelector('#state');
+    const outputDom = document.querySelector('#output');
     if (stateText) {
-        stateText.textContent = `
-            状态：${state.name}
-            剩余时间：${typeof state.duration === 'number' ? state.duration.toFixed(2): ''}
-        `;
+        const statusDom = document.createElement('p');
+        statusDom.textContent = `状态：${state.name}`;
+        const timeDom = document.createElement('p');
+        [...stateText.childNodes].forEach(child => {
+            stateText.removeChild(child);
+        })
+        timeDom.textContent = `剩余时间：${typeof state.leftTime === 'number'
+            ? state.leftTime.toFixed(2)
+            : ''}`;
+        stateText.appendChild(statusDom);
+        stateText.appendChild(timeDom);
+        if (outputDom) {
+            const children = [...outputDom.childNodes];
+            if (children.length > 100) {
+                outputDom.replaceChildren(...children.slice(0,3))
+            }
+            const output = document.createElement('p');
+            output.textContent = statusDom.textContent + timeDom.textContent;
+            outputDom.insertBefore(output, outputDom.firstChild);
+        }
     }
 }
 
 const work = (state: State) => { 
+    if (state.name !== '火急火燎地工作')
+        debugger
     if (!state.startTime) {
-        console.log('不存在startTime');
         state.startTime = Date.now();
     }
     const startTime = Date.now()
-    const leftTime = (state.startTime - startTime) / 1000 / 1000 / 10  + state.duration;
+    const leftTime = (state.startTime - startTime) / 1000  + state.duration;
     const unfinished = leftTime > 0;
     const newState = unfinished ? {
         ...state,
-        duration: leftTime
+        leftTime,
     } : defaultState;
     changeState(newState);
     console.log('newState: ', newState, leftTime)
@@ -67,25 +93,15 @@ const beginTime = (state: State, didTimeout?: boolean) => {
     
     const needSync = state.priority === ImmediatePriority || didTimeout;
     let newState: State = state;
-    while (needSync || !shouldYield()) {
-        console.log('loop: ',newState)
+    while (newState.name=== state.name && (needSync || !shouldYield())) {
+        // console.log('loop: ', newState)
         newState = work(newState);
     }
-    console.log('beginTime newState: ', newState)
-    if (newState.name === state.name ) {
-        // return beginTime.bind(null, newState, needSync);
+    // console.log('beginTime newState: ', newState)
+    if (newState.name === state.name) {
+        console.log('scheduleCallback: ', newState)
         scheduleCallback(newState.priority,  beginTime.bind(null, newState))
     }
-    
-    // if (leftTime > 0) {
-    //     scheduleCallback(state.priority, beginTime.bind(null, {
-    //         ...state,
-    //         startTime,
-    //         duration: leftTime
-    //     }))
-    // } else {
-    //     scheduleCallback(defaultState.priority, beginTime.bind(null, defaultState));
-    // }
 }
 
 const cancelWork = () => {
@@ -97,7 +113,6 @@ const cancelWork = () => {
             break;
         }
         work = newWork;
-        console.log('work: ', work)
     }
 };
 
@@ -106,7 +121,7 @@ const createButton = (
 ) => {
     const { textContent, onClick, state } = options;
     const button = document.createElement('button');
-    button.textContent = state ?  `${state.name} : ${state.priority}`: textContent ?? '';
+    button.textContent = state ?  `${state.name} : ${state.priority}/ ${state.duration}`: textContent ?? '';
     button.onclick = state? function(){
         const { priority } = state;
         scheduleCallback(priority, beginTime.bind(null, { ...state }))
