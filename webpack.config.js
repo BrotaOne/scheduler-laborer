@@ -34,6 +34,7 @@ module.exports = {
         open: true, // 服务启动后，自动打开浏览器
         port: 8011, // 服务端口
         host: '0.0.0.0', // 服务
+        allowedHosts: ['.preview.csb.app'],// 允许 codessandbox
     },
     plugins: [
         new HtmlWebpackPlugin({
