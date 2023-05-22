@@ -72,8 +72,6 @@ const changeState = (state: State) => {
 }
 
 const work = (state: State) => { 
-    if (state.name !== '火急火燎地工作')
-        debugger
     if (!state.startTime) {
         state.startTime = Date.now();
     }
@@ -85,7 +83,6 @@ const work = (state: State) => {
         leftTime,
     } : defaultState;
     changeState(newState);
-    console.log('newState: ', newState, leftTime)
     return newState;
 }
 
@@ -94,12 +91,9 @@ const beginTime = (state: State, didTimeout?: boolean) => {
     const needSync = state.priority === ImmediatePriority || didTimeout;
     let newState: State = state;
     while (newState.name=== state.name && (needSync || !shouldYield())) {
-        // console.log('loop: ', newState)
         newState = work(newState);
     }
-    // console.log('beginTime newState: ', newState)
     if (newState.name === state.name) {
-        console.log('scheduleCallback: ', newState)
         scheduleCallback(newState.priority,  beginTime.bind(null, newState))
     }
 }

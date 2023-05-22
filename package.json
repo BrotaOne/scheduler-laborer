@@ -6,13 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "dev": "webpack server --mode development"
+    "dev": "webpack server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^6.7.4",
+    "html-webpack-plugin": "^5.5.1",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
@@ -21,7 +22,6 @@
     "webpack-dev-server": "^4.15.0"
   },
   "dependencies": {
-    "html-webpack-plugin": "^5.5.1",
     "scheduler": "^0.23.0"
   }
 }
