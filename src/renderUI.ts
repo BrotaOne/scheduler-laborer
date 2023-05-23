@@ -68,17 +68,19 @@ export const changeState = (state: State) => {
     }
 }
 
-export const work = (state: State) => { 
+export const work = (state: State): State => { 
     if (!state.startTime) {
         state.startTime = Date.now();
     }
     const startTime = Date.now()
     const leftTime = (state.startTime - startTime) / 1000  + state.duration;
     const unfinished = leftTime > 0;
-    const newState = unfinished ? {
-        ...state,
-        leftTime,
-    } : defaultState;
+    const newState = unfinished
+        ? {
+            ...state,
+            leftTime,
+        }
+        : defaultState;
     changeState(newState);
     return newState;
 }
@@ -103,13 +105,15 @@ export const createButton = (
 }
 
 export const init = ({
+    id,
     cancelWork,
     bindWork
 }: {
+    id: string,
     cancelWork: () => void,
     bindWork: (state: State) => void
 }) => {
-    const buttonContainer = document.querySelector('#state-button')
+    const buttonContainer = document.querySelector(id);
     if (buttonContainer) {
         buttonContainer.appendChild(createButton({
             cancelWork,

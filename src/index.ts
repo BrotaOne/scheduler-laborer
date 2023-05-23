@@ -30,10 +30,7 @@ const beginWork = (state: State, didTimeout?: boolean) => {
         newState = work(newState);
         console.log('loop', newState);
     }
-    // if (newState.name === state.name) {
-        console.log('newState: ', newState);
-        scheduleCallback(newState.priority,  beginWork.bind(null, newState))
-    // }
+    scheduleCallback(newState.priority,  beginWork.bind(null, newState))
 }
 
 const cancelWork = () => {
@@ -55,4 +52,33 @@ const bindWork = (state: State) => {
     }
 }
 
-window.addEventListener('DOMContentLoaded', init.bind(null, {bindWork, cancelWork}));
+const keepWork = (state: State) => {
+    let workState = state;
+    while (workState.name === state.name) {
+        workState = work(workState);
+    }
+}
+
+window.addEventListener(
+    'DOMContentLoaded',
+    init.bind(
+        null,
+        {
+            id: '#state-button',
+            bindWork,
+            cancelWork
+        }
+    )
+);
+
+window.addEventListener(
+    'DOMContentLoaded',
+    init.bind(
+        null,
+        {
+            id: '#slow-button',
+            bindWork: keepWork,
+            cancelWork
+        }
+    )
+);
