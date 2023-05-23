@@ -1,6 +1,7 @@
 // 引入路径模块
 const path = require("path");
-const  HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const openBrowser = require("react-dev-utils/openBrowser");
 
 module.exports = {
     // 从哪里开始编译
@@ -31,10 +32,17 @@ module.exports = {
     devtool: "cheap-module-source-map",
     devServer: {
         hot: true, // 热更新
-        open: true, // 服务启动后，自动打开浏览器
+        // open: true, // 服务启动后，自动打开浏览器
         port: 8011, // 服务端口
-        host: '0.0.0.0', // 服务
+        host: '127.0.0.1', // 服务
         allowedHosts: ['.e3b03v-8011.csb.app'],// 允许 codessandbox
+        onListening: function (devServer) {
+            if (!devServer) {
+              throw new Error('webpack-dev-server is not defined');
+            }
+            const addr = devServer.server.address();
+            openBrowser(`http://${addr.address}:${addr.port}`);
+          },
     },
     plugins: [
         new HtmlWebpackPlugin({
