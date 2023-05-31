@@ -63,7 +63,7 @@ channel.port2.postMessage('Hello World')
 
 按钮的显示格式为：任务名：优先级/持续时间，可以直接看出每个任务的信息。
 
-### ![May-22-2023 17-28-50](/Users/gongping01/Downloads/Scheduler.assets/May-22-2023 17-28-50.gif)
+### ![May-22-2023 17-28-50](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/May-22-2023 17-28-50.gif)
 
 任务声明（以摸鱼为例）
 
@@ -127,7 +127,7 @@ const beginWork = (state: State, didTimeout?: boolean) => {
 
 如果要增加任务，需要调 `scheduleCallback(priority, callback(didTimeout));`
 
-![](/Users/gongping01/Downloads/Scheduler.assets/33a4277bd7734ea7a272335bd1e66d82~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+![](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/33a4277bd7734ea7a272335bd1e66d82~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
 
 
 
@@ -152,7 +152,7 @@ const beginWork = (state: State, didTimeout?: boolean) => {
 
 
 
-![img](/Users/gongping01/Downloads/Scheduler.assets/4704c25f23fc47158afe7656b5f6e2be~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+![img](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/4704c25f23fc47158afe7656b5f6e2be~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
 
 ### 2、主要函数
 
@@ -184,5 +184,5 @@ Codes sandbox: [scheduler-laborer/main - CodeSandbox](https://codesandbox.io/p/g
 
 [100行代码实现React核心调度功能 (qq.com)](https://mp.weixin.qq.com/s?__biz=MzkzMjIxNTcyMA==&mid=2247489391&idx=1&sn=bf420bb9013f0093cd897b1865b62681&chksm=c25e79a8f529f0bea56db9adfb95f4b933982c96afbb9674eda6693e67d591c5b19ce41f0f37&token=1599882398&lang=zh_CN#rd)
 
-![image.png](/Users/gongping01/Downloads/Scheduler.assets/13528958b6804c16a1dafb613d24b8a9~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
+![image.png](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/13528958b6804c16a1dafb613d24b8a9~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp)
 
