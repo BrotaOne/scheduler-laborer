@@ -63,7 +63,7 @@ channel.port2.postMessage('Hello World')
 
 按钮的显示格式为：任务名：优先级/持续时间，可以直接看出每个任务的信息。
 
-### ![May-22-2023 17-28-50](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/May-22-2023 17-28-50.gif)
+### ![May-22-2023 17-28-50](https://raw.githubusercontent.com/BrotaOne/scheduler-laborer/main/Scheduler.assets/May-22-2023-17-28-50.gif)
 
 任务声明（以摸鱼为例）
 
