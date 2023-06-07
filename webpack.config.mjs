@@ -1,14 +1,26 @@
 // 引入路径模块
-const path = require("path");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const openBrowser = require("react-dev-utils/openBrowser");
+import { resolve as _resolve, dirname } from "path";
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import openBrowser from "react-dev-utils/openBrowser.js";
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log(openBrowser);
+
+export const entry = "./src/index.ts";
+export const output = {
+    path: _resolve(__dirname, 'dist'),
+    filename: "[name].[contenthash].js"
+};
+
+export default {
     // 从哪里开始编译
     entry: "./src/index.ts",
     // 编译到哪里
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: _resolve(__dirname, 'dist'),
         filename: "[name].[contenthash].js"
     },
     // 配置模块规则
