@@ -9,7 +9,7 @@ module.exports = {
     // 编译到哪里
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "bundle.js"
+        filename: 'static/[name].[contenthash].js',
     },
     // 配置模块规则
     module: {
