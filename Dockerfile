@@ -1,16 +1,15 @@
 FROM node:lts-hydrogen as build
 
-WORKDIR /tmp
+WORKDIR /code
 
-COPY package.json webpack.production.config.js tsconfig.json ./
-COPY src ./src
-COPY public ./public
-
+COPY package.json  ./
 RUN npm install --legacy-peer-deps --registry=https://registry.npm.taobao.org
+
+ADD . /code
 RUN npm run build
 
 FROM nginx:stable-alpine
-COPY --from=build /tmp/dist/ /usr/share/nginx/html/
+COPY --from=build /code/dist/ /usr/share/nginx/html/
 COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
