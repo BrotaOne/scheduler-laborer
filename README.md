@@ -37,5 +37,6 @@ docker run -p [port]:80  [name]:[tag]
 
 
 # 二、学习
+可以直接访问 [scheduler-laborer](https://brotaone.github.io/scheduler-laborer/) 看效果
 
 参考 [React-Scheduler学习](./React-Scheduler学习.md)
