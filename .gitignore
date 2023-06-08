@@ -3,3 +3,4 @@ dist
 Scheduler.assets
 .git
 .gitignore
+.eslintcache
