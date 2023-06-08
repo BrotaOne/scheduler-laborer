@@ -25,7 +25,7 @@ jobs:
     - name: Install and Lint
       run: |
         npm install
-        npm run lint-staged
+        npm run lint
           
     - name: Build
       run: npm run build
