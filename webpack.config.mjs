@@ -7,8 +7,6 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-console.log(openBrowser);
-
 export const entry = "./src/index.ts";
 export const output = {
   path: _resolve(__dirname, "dist"),
@@ -47,7 +45,8 @@ export default {
     hot: true, // 热更新
     // open: true, // 服务启动后，自动打开浏览器
     port: 8011, // 服务端口
-    host: "127.0.0.1", // 服务
+    // host: "127.0.0.1", // 服务
+    host: "0.0.0.0",
     allowedHosts: [".e3b03v-8011.csb.app"], // 允许 codessandbox
     onListening: function (devServer) {
       if (!devServer) {
@@ -56,6 +55,9 @@ export default {
       const addr = devServer.server.address();
       openBrowser(`http://${addr.address}:${addr.port}`);
     },
+  },
+  watchOptions: {
+    poll: 1000,
   },
   plugins: [
     new HtmlWebpackPlugin({

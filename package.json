@@ -38,7 +38,7 @@
   },
   "browser": "./src/index.ts",
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
+    "*.{js,ts,jsx,tsx,mjs}": [
       "prettier --write --ignore-unknown",
       "eslint --cache --fix",
       "git add"

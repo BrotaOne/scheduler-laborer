@@ -10,3 +10,4 @@ ADD . /code
 
 EXPOSE 8011
 CMD [ "npm", "run", "dev" ]
+# CMD npm run dev
