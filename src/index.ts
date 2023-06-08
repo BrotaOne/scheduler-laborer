@@ -36,7 +36,7 @@ const beginWork = (state: State, didTimeout?: boolean) => {
 const cancelWork = () => {
     let work = getFirstCallbackNode();
     while (work) {
-        cancelCallback(work);
+        cancelCallback(work);,
         const newWork = getFirstCallbackNode();
         if (work === newWork) {
             break;
