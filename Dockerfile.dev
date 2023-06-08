@@ -1,0 +1,12 @@
+FROM node:lts-hydrogen as dev
+
+WORKDIR /code
+
+COPY package.json  ./
+RUN npm install --legacy-peer-deps --registry=https://registry.npm.taobao.org
+
+# VOLUME [ "./" ]
+ADD . /code
+
+EXPOSE 8011
+CMD [ "npm", "run", "dev" ]

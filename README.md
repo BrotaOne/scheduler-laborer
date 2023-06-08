@@ -9,11 +9,18 @@ pnpm i
 pnpm dev
 ```
 
-访问 [localhost:8011](localhost:8011)
+访问 [localhost:8011](http://localhost:8011)
 
 ## 2、dokcer
+访问地址 [localhost:8011](http://localhost:8011)
+### dev 模式
 
-运行以下命令，制作镜像并启动容器，访问地址为 [localhost:8011](localhost:8011)
+好处在于文件变化可以实时感知并生效，本来打算用 VOLUME ，但是发现 ADD 也可以实现
+```
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+运行以下命令，制作镜像并启动容器
 
 ```
 docker-compose up --build
