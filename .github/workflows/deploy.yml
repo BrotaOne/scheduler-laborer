@@ -7,9 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Lint Action
+      uses: wearerequired/lint-action@v2.3.0
+
   build:
     runs-on: ubuntu-latest
-
+    needs: lint
+    
     strategy:
       matrix:
         node-version: [18.x]
