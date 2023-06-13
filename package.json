@@ -47,5 +47,6 @@
       "prettier --write --ignore-unknown",
       "git add"
     ]
-  }
+  },
+  "packageManager": "pnpm@8.6.2"
 }
